@@ -160,6 +160,8 @@ class Quiz(commands.Cog):
                 colour=discord.Colour.orange()
             )
         else:
+            if ctx.author.id in self.team2:
+                self.team2.remove(ctx.author.id)
             if self.nonteambuzz == ctx.author.id:
                 self.bonusteam = 1
                 self.nonteambuzz = None
@@ -170,7 +172,7 @@ class Quiz(commands.Cog):
                 self.teams[1] += self.individuals[ctx.author.name]
             page=discord.Embed(
                 title="New player",
-                description=f"{ctx.author.name}just joined Team 1.",
+                description=f"{ctx.author.name} just joined Team 1.",
                 colour=discord.Colour.orange()
             )
         await self.buzz_channel.send(embed=page)
@@ -184,6 +186,8 @@ class Quiz(commands.Cog):
                 colour=discord.Colour.orange()
             )
         else:
+            if ctx.author.id in self.team1:
+                self.team1.remove(ctx.author.id)
             if self.nonteambuzz == ctx.author.id:
                 self.bonusteam = 2
                 self.nonteambuzz = None
@@ -194,7 +198,7 @@ class Quiz(commands.Cog):
                 self.teams[2] += self.individuals[ctx.author.name]
             page=discord.Embed(
                 title="New player",
-                description=f"{ctx.author.name}just joined Team 2.",
+                description=f"{ctx.author.name} just joined Team 2.",
                 colour=discord.Colour.orange()
             )
         await self.buzz_channel.send(embed=page)
@@ -214,11 +218,18 @@ class Quiz(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
+        if message.author == self.bot.user:
+            print("Hi")
+            return
         if (message.channel.id == self.buzz_channel.id) and self.tossup:
             if self.bot.user.id != message.author.id:
+                print(self.bot.user.name)
+                print(message.author.name)
                 if (message.author.id in self.team1) and self.team1locked:
                     pass
                 elif (message.author.id in self.team2) and self.team2locked:
+                    pass
+                elif (message.content[0] == "!"): # TODO: fix this hack
                     pass
                 else:
                     if self.similar('buzz', message.content):
