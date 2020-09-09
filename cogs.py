@@ -105,7 +105,7 @@ class Quiz(commands.Cog):
             self.moderator = ctx.author
             page=discord.Embed(
                 title="Moderator",
-                description=f"Hello {self.moderator.name}, you're now the moderator. Type !tu between each tossup, and follow the scoring instructions as they appear!",
+                description=f"Hello {self.moderator.name}, you're now the moderator. Type !tu between each tossup, and follow the scoring instructions as they appear! Everyone else, please split yourself into teams by typing !team1 or !team2.",
                 colour=discord.Colour.orange()
             )
         else:
